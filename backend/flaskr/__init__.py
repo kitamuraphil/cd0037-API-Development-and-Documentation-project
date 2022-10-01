@@ -146,13 +146,13 @@ def create_app(test_config=None):
                 if searchTerm:
                     questions = Question.query.filter(
                         Question.question.ilike(f"%{searchTerm}%")).all()
-                    paginated_questions = paginate_questions(
+                    paginated_quest = paginated_questions(
                         request, questions)
 
                     return jsonify({
                         'success': True,
-                        'questions': paginated_questions,
-                        'total_questions': len(paginated_questions)
+                        'questions': paginated_quest,
+                        'total_questions': len(paginated_quest)
                     })
 
                 else:
@@ -161,14 +161,14 @@ def create_app(test_config=None):
                     q.insert()
 
                     questions = Question.query.order_by(Question.id).all()
-                    paginated_questions = paginate_questions(
+                    paginated_quest = paginated_questions(
                         request, questions)
 
                     return jsonify({
                         'success': True,
                         'question_created': q.question,
                         'created': q.id,
-                        'questions': paginated_questions,
+                        'questions': paginated_quest,
                         'total_questions': len(Question.query.all())
                     })
             except:
@@ -190,13 +190,13 @@ def create_app(test_config=None):
             try:
                 questions = Question.query.filter_by(
                     category=category.id).all()
-                paginated_questions = paginate_questions(request, questions)
+                paginated_quest = paginated_questions(questions)
 
                 return jsonify({
                     'success': True,
                     'total_questions': len(Question.query.all()),
                     'current_category': category.type,
-                    'questions': paginated_questions
+                    'questions': paginated_quest
                 })
 
             except:
