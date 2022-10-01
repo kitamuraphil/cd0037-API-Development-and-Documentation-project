@@ -9,6 +9,14 @@ from models import setup_db, Question, Category
 QUESTIONS_PER_PAGE = 10
 
 
+def paginated_questions(questions):
+    page = requests.args.get('page', 1, type=int)
+    start = (page - 1) * (QUESTIONS_PER_PAGE)
+    end = start + (QUESTIONS_PER_PAGE)
+    paginated = questions[start:end]
+    return paginated
+
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -66,9 +74,9 @@ def create_app(test_config=None):
     def get_questions():
         if request.method == "GET":
             questions = Question.query.all()
-            paginated_questions = paginate_questions(request, questions)
+            paginated_quest = paginated_questions(questions)
 
-            if len(paginated_questions) == 0:
+            if len(paginated_quest) == 0:
                 abort(404)
 
             categories = Category.query.all()
@@ -81,7 +89,7 @@ def create_app(test_config=None):
                 'success': True,
                 'total_questions': len(questions),
                 'categories': my_cat,
-                'questions': paginated_questions
+                'questions': paginated_quest
             })
     """
     @TODO:
@@ -132,13 +140,15 @@ def create_app(test_config=None):
             answer = body.get('answer', None)
             difficulty = body.get('difficulty', None)
             category = body.get('category',  None)
-            
+
             searchTerm = body.get('searchTerm', None)
             try:
                 if searchTerm:
-                    questions = Question.query.filter(Question.question.ilike(f"%{searchTerm}%")).all()
-                    paginated_questions = paginate_questions(request, questions)
-                    
+                    questions = Question.query.filter(
+                        Question.question.ilike(f"%{searchTerm}%")).all()
+                    paginated_questions = paginate_questions(
+                        request, questions)
+
                     return jsonify({
                         'success': True,
                         'questions': paginated_questions,
@@ -146,11 +156,13 @@ def create_app(test_config=None):
                     })
 
                 else:
-                    q = Question(question=question, answer=answer, difficulty=difficulty, category=category)
+                    q = Question(question=question, answer=answer,
+                                 difficulty=difficulty, category=category)
                     q.insert()
 
                     questions = Question.query.order_by(Question.id).all()
-                    paginated_questions = paginate_questions(request, questions)
+                    paginated_questions = paginate_questions(
+                        request, questions)
 
                     return jsonify({
                         'success': True,
@@ -176,7 +188,8 @@ def create_app(test_config=None):
             if category is None:
                 abort(404)
             try:
-                questions = Question.query.filter_by(category=category.id).all()
+                questions = Question.query.filter_by(
+                    category=category.id).all()
                 paginated_questions = paginate_questions(request, questions)
 
                 return jsonify({
@@ -209,15 +222,17 @@ def create_app(test_config=None):
 
                 cat_id = category['id']
                 next_question = None
-                
+
                 if cat_id != 0:
-                    av_questions = Question.query.filter_by(category=cat_id).filter(Question.id.notin_((prev_questions))).all()    
+                    av_questions = Question.query.filter_by(category=cat_id).filter(
+                        Question.id.notin_((prev_questions))).all()
                 else:
-                    av_questions = Question.query.filter(Question.id.notin_((prev_questions))).all()
-                
+                    av_questions = Question.query.filter(
+                        Question.id.notin_((prev_questions))).all()
+
                 if len(av_questions) > 0:
                     next_question = random.choice(av_questions).format()
-                
+
                 return jsonify({
                     'question': next_question,
                     'success': True,
@@ -244,7 +259,7 @@ def create_app(test_config=None):
             "error": 404,
             "message": "resource not found"
         }), 404
-    
+
     @app.errorhandler(405)
     def method_not_allowed(error):
         return jsonify({
