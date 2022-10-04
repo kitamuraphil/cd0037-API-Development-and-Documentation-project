@@ -9,7 +9,7 @@
 3. Returns object of all categories for questions.
 4. Response is as shown below
 
-  ⚡ "categories": { "1": "Science", "2": "Art", "3": "Geography", "4": "History", "5": "Entertainment", "6": "Sports" }
+⚡ "categories": { "1": "Science", "2": "Art", "3": "Geography", "4": "History", "5": "Entertainment", "6": "Sports" }
 
 # GET "/questions"
 
@@ -18,7 +18,7 @@
 3. Returns an object containing a dictionary of all categories by their ID (Key) and TYPE (Value), a list of question dictionaries from the database ordered by their id, and the total number of questions in the records.
 4. Optional page query parameter can be passed to display the questions for that page.
 
-     ⚡ "/questions?page=2"
+   ⚡ "/questions?page=2"
 
    Sample response is as shown below
 
@@ -28,16 +28,16 @@
 
 1. Returns a JSON object containing the selected category (specified by the id), all questions from that category and the total number in that category.
 2. Response for category 6 is as shown below
-  ⚡ { "currentCategory": "Sports", "questions": [ { "answer": "Brazil", "category": 6, "difficulty": 3, "id": 10, "question": "Which is the only team to play in every soccer World Cup tournament?" }, { "answer": "Uruguay", "category": 6, "difficulty": 4, "id": 11, "question": "Which country won the first ever soccer World Cup in 1930?" }, "totalQuestions": 7 }
+   ⚡ { "currentCategory": "Sports", "questions": [ { "answer": "Brazil", "category": 6, "difficulty": 3, "id": 10, "question": "Which is the only team to play in every soccer World Cup tournament?" }, { "answer": "Uruguay", "category": 6, "difficulty": 4, "id": 11, "question": "Which country won the first ever soccer World Cup in 1930?" }, "totalQuestions": 7 }
 
 Http 404 error is raised if the id is not associated with any category in the database or if the specified category has no question associated with it.
 
-/_ Adding new question _/
+/_Adding new question_/
 
 # POST "/questions"
 
 1. For a "POST" request, a new question can be created and stored in the database with a new ID.
-  The request body has to be a dictionary object with all the keys in the sample below.
+   The request body has to be a dictionary object with all the keys in the sample below.
 
 new question = { "answer": "test question", "category": 1, "difficulty": 4, "question": "test answer" }
 
@@ -57,10 +57,10 @@ new question = { "answer": "test question", "category": 1, "difficulty": 4, "que
 
 1. A 'POST' request to this endpoint can also be used to search for questions containing a specified character combination
 2. For a successful search, the request body MUST be the single key dictionary shown below
-  search = { "searchTerm" : "title" #replace the value with your search characters }
+   search = { "searchTerm" : "title" #replace the value with your search characters }
 
 3. The response returns a JSON object of all questions containing the searched characters as shown below and the total number of questions matching the search
-  ⚡ { "questions": [ { "answer": "Maya Angelou", "category": 4, "difficulty": 2, "id": 5, "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?" }, { "answer": "Edward Scissorhands", "category": 5, "difficulty": 3, "id": 6, "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?" } ], "totalQuestions": 2 }
+   ⚡ { "questions": [ { "answer": "Maya Angelou", "category": 4, "difficulty": 2, "id": 5, "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?" }, { "answer": "Edward Scissorhands", "category": 5, "difficulty": 3, "id": 6, "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?" } ], "totalQuestions": 2 }
 
 # POST "/quizzes"
 
@@ -72,4 +72,4 @@ new question = { "answer": "test question", "category": 1, "difficulty": 4, "que
 
 ⚡ quiz = { 'previous_questions': [11], 'quiz_category': { 'type': 'Sports', 'id': '6' } }
 
-  If the category is non-existent, 404 error is raised.
+If the category is non-existent, 404 error is raised.
