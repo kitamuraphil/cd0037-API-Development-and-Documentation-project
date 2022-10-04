@@ -32,7 +32,7 @@
 
 Http 404 error is raised if the id is not associated with any category in the database or if the specified category has no question associated with it.
 
-/_Adding new question_/
+🌱 /_Adding new question_/
 
 # POST "/questions"
 
@@ -51,7 +51,7 @@ new question = { "answer": "test question", "category": 1, "difficulty": 4, "que
 2. No information is returned to the frontend
 3. 404 error is raised if the id is not associated with any question
 
-/_Searching for questions_/
+🌱 /_Searching for questions_/
 
 # POST '/questions' searching for question/s
 
