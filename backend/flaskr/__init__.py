@@ -41,7 +41,7 @@ def create_app(test_config=None):
     Create an endpoint to handle GET requests
     for all available categories.
     """
-    @app.get("/categories")
+    @app.route("/categories", methods=["GET"])
     def get_categories_all():
             categories = Category.query.order_by(Category.id).all()
             my_cat = {}
@@ -69,7 +69,7 @@ def create_app(test_config=None):
     ten questions per page and pagination at the bottom of the screen for three pages.
     Clicking on the page numbers should update the questions.
     """
-    @app.get('/questions')
+    @app.route('/questions', methods=['GET'])
     def get_all_questions():
             questions = Question.query.all()
             formatted_questions = [quest.format() for quest in questions]
@@ -97,7 +97,7 @@ def create_app(test_config=None):
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     """
-    @app.delete('/questions/<int:id>')
+    @app.route('/questions/<int:id>', methods=['DELETE'])
     def delete_question(id):
             q = Question.query.filter_by(id=id).one_or_none()
             if q is None:
@@ -130,7 +130,7 @@ def create_app(test_config=None):
     only question that include that string within their question.
     Try using the word "title" to start.
     """
-    @app.post('/questions')
+    @app.route('/questions', methods=['POST'])
     def create_a_question():
             body = request.get_json()
             question = body.get('question', None)
@@ -173,7 +173,7 @@ def create_app(test_config=None):
     categories in the left column will cause only questions of that
     category to be shown.
     """
-    @app.get('/categories/<int:category_id>/questions')
+    @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_category(category_id):
             category = Category.query.filter_by(id=category_id).one_or_none()
             if category is None:
@@ -204,7 +204,7 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
-    @app.post('/play')
+    @app.route('/play', methods=['POST'])
     def gamingMethod():
         try:
             body = request.get_json()
